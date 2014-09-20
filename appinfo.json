@@ -8,11 +8,7 @@
     "projectType": "simplyjs",
     "resources": {
         "media": [
-            {
-                "file": "images/logo_splash.png",
-                "name": "IMAGE_LOGO_SPLASH",
-                "type": "png"
-            },
+
             {
                 "file": "fonts/UbuntuMono-Regular.ttf",
                 "name": "MONO_FONT_14",
