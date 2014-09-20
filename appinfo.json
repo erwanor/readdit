@@ -7,14 +7,7 @@
     "longName": "ReadIt",
     "projectType": "simplyjs",
     "resources": {
-        "media": [
-
-            {
-                "file": "fonts/UbuntuMono-Regular.ttf",
-                "name": "MONO_FONT_14",
-                "type": "font"
-            }
-        ]
+        "media": []
     },
     "shortName": "ReadIt",
     "uuid": "00ec8388-a6ce-43f9-a805-35c39609a77e",
