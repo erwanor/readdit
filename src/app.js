@@ -46,12 +46,11 @@ simply.on('singleClick', function(e) {
   }
 });
 
-/*
 simply.on('accelTap', function(e) {
-  console.log(util2.format('tapped accel axis $axis $direction!', e));
+  if (debug == 1) console.log(util2.format('Tapped accel axis $axis $direction!', e));
+  scroll_list(e.direction > 0 ? 'down' : 'up');
   // simply.subtitle('Tapped ' + (e.direction > 0 ? '+' : '-') + e.axis + '!');
 });
-*/
 
 // Initial text
 simply.setText({
