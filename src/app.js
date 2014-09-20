@@ -13,7 +13,6 @@ var main = new UI.Card({
 
 main.show();
 
-
 main.on('click', 'up', function(e) {
   var menu = new UI.Menu({
     sections: [{
@@ -27,12 +26,14 @@ main.on('click', 'up', function(e) {
       }]
     }]
   });
+    
   menu.on('select', function(e) {
     console.log('Selected item #' + e.itemIndex + ' of section #' + e.sectionIndex);
     console.log('The item is titled "' + e.item.title + '"');
   });
   menu.show();
 });
+
 
 main.on('click', 'select', function(e) {
   var wind = new UI.Window();
@@ -47,21 +48,27 @@ main.on('click', 'select', function(e) {
   wind.show();
 });
 
-  main.on('click', 'down', function(e) {
-  var card = new UI.Card();
+main.on('click', 'down', function(e){
   
   /** Grab the data from r/worldnews, load it from the smartphone and push it to the watch **/
 
-  var req = new XMLHttpRequest();
+  /**var req = new XMLHttpRequest();
   
   req.open('GET', 'http://www.reddit.com/r/worldnews/top/.json', true);
+  
   var title = JSON.parse(req.title);
   var score = JSON.parse(req.score); 
+  **/
   
- main.on('click', 'down', function(e) {
   var card = new UI.Card();
-  card.title(title[0]);
+  card.title('6969 upvotes');
   card.subtitle('guardian.com');
   card.body('US Airstrike kills 40 Islamic State fighters');
   card.show();
+    
+  /** 
+  * on-click event up, iterate parsed array !
+  *  """""""" same stuff here  **/ 
+    
 });
+        
