@@ -1,21 +1,9 @@
 /**
- * Welcome to Pebble.js!
- *
- * This is where you write your app.
+ * Readit v0
  */
 
 var UI = require('ui');
 var Vector2 = require('vector2');
-var req = new XMLHttpRequest();
-  req.open('GET', 'http://www.reddit.com/r/worldnews/top/.json', true);
-  req.onload = function(e) {
-    if (req.readyState == 4 && req.status == 200) {
-      if(req.status == 200) {
-        var title = JSON.parse(req.title);
-        Pebble.sendAppMessage({ "title": title });
-      } else { console.log("Error sending data from reddit"); }
-    }
-  };
 
 var main = new UI.Card({
   title: '',
@@ -34,7 +22,7 @@ main.on('click', 'up', function(e) {
         subtitle: 'Can do Menus'
       }, {
         title: 'Second Item',
-        subtitle: 'Subtitle Text'
+        subtitle: 'sub'
       }]
     }]
   });
@@ -51,7 +39,7 @@ main.on('click', 'select', function(e) {
     position: new Vector2(0, 50),
     size: new Vector2(144, 30),
     font: 'gothic-24-bold',
-    text: 'Text Anywhere!',
+    text: '',
     textAlign: 'center'
   });
   wind.add(textfield);
@@ -60,8 +48,19 @@ main.on('click', 'select', function(e) {
 
 main.on('click', 'down', function(e) {
   var card = new UI.Card();
+  
+  /** Grab the data from r/worldnews, load it from the smartphone and push it to the watch **/
+  
+  var req = new XMLHttpRequest();
+  req.open('GET', 'http://www.reddit.com/r/worldnews/top/.json', true);
+  var title = JSON.parse(req.title);
+  var score = JSON.parse(req.score);
+  
+  card.title('title[0]');
+  /** Test static screen **/
+  /**
   card.title('6969 upvotes');
   card.subtitle('nyt.com');
   card.body('The Islamic State is upset with the French government\'s new name for them.');
-  card.show();
+  card.show();**/
 });
