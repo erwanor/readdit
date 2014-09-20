@@ -11,20 +11,20 @@ simply.on('singleClick', function(e) {
  //   simply.subtitle(myscore + "upvotes");
      ++counter;
      ajax({ url: URL, type: 'json' }, function(data){ 
-        simply.text({title: data.data.children[counter].data.score + "upvotes", subtitle: data.data.children[counter].data.domain, body: data.data.children[counter].data.title});
+        simply.text({title: data.data.children[counter].data.score + " upvotes", subtitle: data.data.children[counter].data.domain, body: data.data.children[counter].data.title});
     });
  }
   else if(e.button === 'up' && counter === 24){
     counter = 0;
     ajax({ url: URL, type: 'json' }, function(data){ 
-        simply.text({title: data.data.children[counter].data.score + "upvotes", subtitle: data.data.children[counter].data.domain, body: data.data.children[counter].data.title});
+        simply.text({title: data.data.children[counter].data.score + " upvotes", subtitle: data.data.children[counter].data.domain, body: data.data.children[counter].data.title});
     });
   }
   else if(e.button === 'down' && counter > 0){
     --counter;
    // simply.subtitle('2');
     ajax({ url: URL, type: 'json' }, function(data){ 
-        simply.text({title: data.data.children[counter].data.score + "upvotes", subtitle: data.data.children[counter].data.domain, body: data.data.children[counter].data.title});
+        simply.text({title: data.data.children[counter].data.score + " upvotes", subtitle: data.data.children[counter].data.domain, body: data.data.children[counter].data.title});
     });
   }
   else if(e.button === 'down' && counter === 0){
