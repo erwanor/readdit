@@ -1,40 +1,59 @@
-simply.vibe('short');
-
-var URL = "http://reddit.com/r/worldnews/top/.json";
+// Define our variables
+var debug = 1;
 var counter = 0; // parseInt(localStorage.getItem('counter')) || 0; // If the variable counter exists, pull it from the "localStorage" else initialize to zero.
+var URL = "http://reddit.com/r/worldnews/top/.json";
 var items;
-  ajax({ url: URL, type: 'json' }, function(resp) {
-    items = resp;
-  });
 
-simply.on('singleClick', function(e) {
-  simply.text({title: items.data.children[counter].data.score + " upvotes", subtitle: items.data.children[counter].data.domain, body: items.data.children[counter].data.title});
-  console.log("Counter: " + counter + "\n");
+if (debug == 1)
+  simply.vibe('short');
+
+// Get the data from reddit
+ajax({ url: URL, type: 'json' }, function(resp) {
+  items = resp.data;
+});
+
+// Scroll the list up or down
+// This function is called on button click and accelerometer thing
+function scroll_list(way) {
+  simply.text({title: items.children[counter].data.score + " upvotes", subtitle: items.children[counter].data.domain, body: items.children[counter].data.title});
+  if (debug == 1) console.log("Counter: " + counter + "\n");
   
-  if(e.button === 'down' && counter < 24)
+  if(way === 'down' && counter < 24)
      ++counter;
-  else if(e.button === 'down' && counter === 24)
+  else if(way === 'down' && counter === 24)
     counter = 0;
-  else if(e.button === 'up' && counter > 0)
+  else if(way === 'up' && counter > 0)
     --counter;
-  else if(e.button === 'up' && counter === 0)
+  else if(way === 'up' && counter === 0)
     counter = 24;
   
   localStorage.setItem('counter', counter);
-});
-/**
-simply.on('longClick', function(e) {
-  console.log(util2.format('long clicked $button!', e));
-  simply.vibe();
-  simply.scrollable(e.button !== 'select');
+}
+
+// Monitor button clicks and call appropriate function
+simply.on('singleClick', function(e) {
+  switch (e.button) {
+    case 'up' :
+    case 'down' :
+      scroll_list(e.button);
+      break;
+      
+    // Preserved for link (page and comments) opening
+      
+    default :
+      if (debug == 1) console.log('lolwut');
+      break;
+  }
 });
 
+/*
 simply.on('accelTap', function(e) {
   console.log(util2.format('tapped accel axis $axis $direction!', e));
-  simply.subtitle('Tapped ' + (e.direction > 0 ? '+' : '-') + e.axis + '!');
+  // simply.subtitle('Tapped ' + (e.direction > 0 ? '+' : '-') + e.axis + '!');
 });
-**/
+*/
 
+// Initial text
 simply.setText({
   title: 'Readit',
   body: 'Daily provider of non-sense since 1852',
