@@ -6,12 +6,13 @@ var UI = require('ui');
 var Vector2 = require('vector2');
 
 var main = new UI.Card({
-  title: '',
-  subtitle: 'READIT',
-  body: 'Press any button.'
+  title: 'Readit!',
+  subtitle: 'factory of the awesome',
+  body: '...'
 });
 
 main.show();
+
 
 main.on('click', 'up', function(e) {
   var menu = new UI.Menu({
@@ -21,7 +22,7 @@ main.on('click', 'up', function(e) {
         icon: 'images/menu_icon.png',
         subtitle: 'Can do Menus'
       }, {
-        title: 'Second Item',
+        title: 'Snd',
         subtitle: 'sub'
       }]
     }]
@@ -39,28 +40,28 @@ main.on('click', 'select', function(e) {
     position: new Vector2(0, 50),
     size: new Vector2(144, 30),
     font: 'gothic-24-bold',
-    text: '',
+    text: 'readit',
     textAlign: 'center'
   });
   wind.add(textfield);
   wind.show();
 });
 
-main.on('click', 'down', function(e) {
+  main.on('click', 'down', function(e) {
   var card = new UI.Card();
   
   /** Grab the data from r/worldnews, load it from the smartphone and push it to the watch **/
-  
+
   var req = new XMLHttpRequest();
+  
   req.open('GET', 'http://www.reddit.com/r/worldnews/top/.json', true);
   var title = JSON.parse(req.title);
-  var score = JSON.parse(req.score);
+  var score = JSON.parse(req.score); 
   
-  card.title('title[0]');
-  /** Test static screen **/
-  /**
-  card.title('6969 upvotes');
-  card.subtitle('nyt.com');
-  card.body('The Islamic State is upset with the French government\'s new name for them.');
-  card.show();**/
+ main.on('click', 'down', function(e) {
+  var card = new UI.Card();
+  card.title(title[0]);
+  card.subtitle('guardian.com');
+  card.body('US Airstrike kills 40 Islamic State fighters');
+  card.show();
 });
