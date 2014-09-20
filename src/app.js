@@ -7,7 +7,7 @@ var items;
 if (debug == 1)
   simply.vibe('short');
 
-// Get the data from reddit
+// Get datalove from reddit
 ajax({ url: URL, type: 'json' }, function(resp) {
   items = resp.data;
 });
@@ -39,7 +39,6 @@ simply.on('singleClick', function(e) {
       break;
       
     // Preserved for link (page and comments) opening
-      
     default :
       if (debug == 1) console.log('lolwut');
       break;
@@ -49,7 +48,6 @@ simply.on('singleClick', function(e) {
 simply.on('accelTap', function(e) {
   if (debug == 1) console.log(util2.format('Tapped accel axis $axis $direction!', e));
   scroll_list(e.direction > 0 ? 'down' : 'up');
-  // simply.subtitle('Tapped ' + (e.direction > 0 ? '+' : '-') + e.axis + '!');
 });
 
 // Initial text
