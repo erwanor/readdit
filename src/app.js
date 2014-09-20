@@ -1,39 +1,24 @@
-console.log('Readit is launching....');
 simply.vibe('short');
 
-
 var URL = "http://reddit.com/r/worldnews/top/.json";
-var counter = parseInt(localStorage.getItem('counter')) || counter; // If the variable counter exists, pull it from the "localStorage" else initialize to zero.
-
+var counter = 0; // parseInt(localStorage.getItem('counter')) || 0; // If the variable counter exists, pull it from the "localStorage" else initialize to zero.
+var items;
+  ajax({ url: URL, type: 'json' }, function(resp) {
+    items = resp;
+  });
 
 simply.on('singleClick', function(e) {
- if(e.button === 'up' && counter < 24){
- //   simply.subtitle(myscore + "upvotes");
+  simply.text({title: items.data.children[counter].data.score + " upvotes", subtitle: items.data.children[counter].data.domain, body: items.data.children[counter].data.title});
+  console.log("Counter: " + counter + "\n");
+  
+  if(e.button === 'down' && counter < 24)
      ++counter;
-     ajax({ url: URL, type: 'json' }, function(data){ 
-        simply.text({title: data.data.children[counter].data.score + " upvotes", subtitle: data.data.children[counter].data.domain, body: data.data.children[counter].data.title});
-    });
- }
-  else if(e.button === 'up' && counter === 24){
+  else if(e.button === 'down' && counter === 24)
     counter = 0;
-    ajax({ url: URL, type: 'json' }, function(data){ 
-        simply.text({title: data.data.children[counter].data.score + " upvotes", subtitle: data.data.children[counter].data.domain, body: data.data.children[counter].data.title});
-    });
-  }
-  else if(e.button === 'down' && counter > 0){
+  else if(e.button === 'up' && counter > 0)
     --counter;
-   // simply.subtitle('2');
-    ajax({ url: URL, type: 'json' }, function(data){ 
-        simply.text({title: data.data.children[counter].data.score + " upvotes", subtitle: data.data.children[counter].data.domain, body: data.data.children[counter].data.title});
-    });
-  }
-  else if(e.button === 'down' && counter === 0){
+  else if(e.button === 'up' && counter === 0)
     counter = 24;
- //   simply.subtitle('1');
-    ajax({ url: URL, type: 'json' }, function(data){ 
-        simply.text({title: data.data.children[counter].data.score  + " upvotes", subtitle: data.data.children[counter].data.domain, body: data.data.children[counter].data.title});
-    });
-  }
   
   localStorage.setItem('counter', counter);
 });
