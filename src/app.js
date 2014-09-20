@@ -52,7 +52,7 @@ simply.on('accelTap', function(e) {
 
 // Initial text
 simply.setText({
-  title: 'Readit',
-  body: 'Daily provider of non-sense since 1852',
+  title: 'Readdit',
+  body: 'Daily provider of nonsense since 1852',
 }, true);
 
