@@ -4,8 +4,8 @@
         ""
     ],
     "companyName": "a.ounnoughene@gmail.com",
-    "longName": "Readit News",
-    "projectType": "pebblejs",
+    "longName": "Try",
+    "projectType": "simplyjs",
     "resources": {
         "media": [
             {
@@ -20,19 +20,14 @@
                 "type": "png"
             },
             {
-                "file": "images/tile_splash.png",
-                "name": "IMAGE_TILE_SPLASH",
-                "type": "png"
-            },
-            {
                 "file": "fonts/UbuntuMono-Regular.ttf",
                 "name": "MONO_FONT_14",
                 "type": "font"
             }
         ]
     },
-    "shortName": "Readit",
-    "uuid": "24f586e5-efcc-4eb2-bb61-7a522ff4db38",
+    "shortName": "Try",
+    "uuid": "00ec8388-a6ce-43f9-a805-35c39609a77e",
     "versionCode": 1,
     "versionLabel": "1.0",
     "watchapp": {

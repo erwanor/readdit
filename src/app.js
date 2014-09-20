@@ -1,74 +1,57 @@
+console.log('Readit is launching....');
+simply.vibe('short');
+
+
+var URL = "http://reddit.com/r/worldnews/top/.json";
+var counter = parseInt(localStorage.getItem('counter')) || counter; // If the variable counter exists, pull it from the "localStorage" else initialize to zero.
+
+
+simply.on('singleClick', function(e) {
+ if(e.button === 'up' && counter < 24){
+ //   simply.subtitle(myscore + "upvotes");
+     ++counter;
+     ajax({ url: URL, type: 'json' }, function(data){ 
+        simply.text({title: data.data.children[counter].data.score + "upvotes", subtitle: data.data.children[counter].data.domain, body: data.data.children[counter].data.title});
+    });
+ }
+  else if(e.button === 'up' && counter === 24){
+    counter = 0;
+    ajax({ url: URL, type: 'json' }, function(data){ 
+        simply.text({title: data.data.children[counter].data.score + "upvotes", subtitle: data.data.children[counter].data.domain, body: data.data.children[counter].data.title});
+    });
+  }
+  else if(e.button === 'down' && counter > 0){
+    --counter;
+   // simply.subtitle('2');
+    ajax({ url: URL, type: 'json' }, function(data){ 
+        simply.text({title: data.data.children[counter].data.score + "upvotes", subtitle: data.data.children[counter].data.domain, body: data.data.children[counter].data.title});
+    });
+  }
+  else if(e.button === 'down' && counter === 0){
+    counter = 24;
+ //   simply.subtitle('1');
+    ajax({ url: URL, type: 'json' }, function(data){ 
+        simply.text({title: data.data.children[counter].data.score  + " upvotes", subtitle: data.data.children[counter].data.domain, body: data.data.children[counter].data.title});
+    });
+  }
+  
+  localStorage.setItem('counter', counter);
+});
 /**
- * Readit v0
- */
-
-var UI = require('ui');
-var Vector2 = require('vector2');
-
-var main = new UI.Card({
-  title: 'Readit!',
-  subtitle: 'factory of the awesome',
-  body: '...'
+simply.on('longClick', function(e) {
+  console.log(util2.format('long clicked $button!', e));
+  simply.vibe();
+  simply.scrollable(e.button !== 'select');
 });
 
-main.show();
-
-main.on('click', 'up', function(e) {
-  var menu = new UI.Menu({
-    sections: [{
-      items: [{
-        title: 'Pebble.js',
-        icon: 'images/menu_icon.png',
-        subtitle: 'Can do Menus'
-      }, {
-        title: 'Snd',
-        subtitle: 'sub'
-      }]
-    }]
-  });
-    
-  menu.on('select', function(e) {
-    console.log('Selected item #' + e.itemIndex + ' of section #' + e.sectionIndex);
-    console.log('The item is titled "' + e.item.title + '"');
-  });
-  menu.show();
+simply.on('accelTap', function(e) {
+  console.log(util2.format('tapped accel axis $axis $direction!', e));
+  simply.subtitle('Tapped ' + (e.direction > 0 ? '+' : '-') + e.axis + '!');
 });
+**/
 
+simply.setText({
+  title: 'Readit',
+  body: 'Daily provider of non-sense since 1852',
+}, true);
 
-main.on('click', 'select', function(e) {
-  var wind = new UI.Window();
-  var textfield = new UI.Text({
-    position: new Vector2(0, 50),
-    size: new Vector2(144, 30),
-    font: 'gothic-24-bold',
-    text: 'readit',
-    textAlign: 'center'
-  });
-  wind.add(textfield);
-  wind.show();
-});
-
-main.on('click', 'down', function(e){
-  
-  /** Grab the data from r/worldnews, load it from the smartphone and push it to the watch **/
-
-  /**var req = new XMLHttpRequest();
-  
-  req.open('GET', 'http://www.reddit.com/r/worldnews/top/.json', true);
-  
-  var title = JSON.parse(req.title);
-  var score = JSON.parse(req.score); 
-  **/
-  
-  var card = new UI.Card();
-  card.title('6969 upvotes');
-  card.subtitle('guardian.com');
-  card.body('US Airstrike kills 40 Islamic State fighters');
-  card.show();
-    
-  /** 
-  * on-click event up, iterate parsed array !
-  *  """""""" same stuff here  **/ 
-    
-});
-        
