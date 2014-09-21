@@ -1,5 +1,6 @@
-var ui    = require('UI');
-var ajax  = require('ajax');
+// Requires
+var UI    = require('ui');
+var Ajax  = require('ajax');
 var Vibe  = require('ui/vibe');
 var Accel = require('ui/accel');
 
@@ -9,20 +10,35 @@ var counter = 0; // parseInt(localStorage.getItem('counter')) || 0; // If the va
 var URL = "http://reddit.com/r/worldnews/top/.json";
 var items;
 
+// Vibration for installation
 if (debug == 1)
   Vibe.vibrate('short');
 
+// Initial UI
+var main = new UI.Card({
+  title: 'Readdit',
+  subtitle: 'Daily provider of nonsense since 1852',
+  body: ''
+});
+
+main.show();
+
 // Get datalove from reddit
-ajax({ url: URL, type: 'json' }, function(resp) {
+Ajax({ url: URL, type: 'json' }, function(resp) {
   items = resp.data;
 });
 
+// Accelerometer
 Accel.init();
 
 // Scroll the list up or down
 // This function is called on button click and accelerometer thing
 function scroll_list(way) {
-  simply.text({title: items.children[counter].data.score + " upvotes", subtitle: items.children[counter].data.domain, body: items.children[counter].data.title});
+  main.title(items.children[counter].data.score + " upvotes");
+  main.subtitle(items.children[counter].data.domain);
+  main.body(items.children[counter].data.title);
+  main.show();
+  
   if (debug == 1) console.log("Counter: " + counter + "\n");
   
   if(way === 'down' && counter < 24)
@@ -38,7 +54,7 @@ function scroll_list(way) {
 }
 
 // Monitor button clicks and call appropriate function
-simply.on('singleClick', function(e) {
+main.on('click', function(e) {
   switch (e.button) {
     case 'up' :
     case 'down' :
@@ -51,15 +67,9 @@ simply.on('singleClick', function(e) {
       break;
   }
 });
-
-simply.on('accelTap', function(e) {
-  if (debug == 1) console.log(util2.format('Tapped accel axis $axis $direction!', e));
+/*
+main.on('accelTap', function(e) {
+  // if (debug == 1) console.log(util2.format('Tapped accel axis $axis $direction!', e));
   scroll_list(e.direction > 0 ? 'down' : 'up');
 });
-
-// Initial text
-simply.setText({
-  title: 'Readdit',
-  body: 'Daily provider of nonsense since 1852',
-}, true);
-
+*/
