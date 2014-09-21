@@ -62,6 +62,10 @@ main.on('click', function(e) {
       break;
       
     // Preserved for link (page and comments) opening
+    case 'select' :
+      Pebble.openURL("http://reddit.com/" + items.children[counter].data.permalink + ".compact");
+      //Pebble.openURL("http://google.com");
+      break;
     default :
       if (debug == 1) console.log('lolwut');
       break;
