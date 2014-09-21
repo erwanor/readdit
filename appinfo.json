@@ -5,7 +5,7 @@
     ],
     "companyName": "ReadIt",
     "longName": "ReadIt",
-    "projectType": "simplyjs",
+    "projectType": "pebblejs",
     "resources": {
         "media": []
     },
