@@ -1,3 +1,8 @@
+var ui    = require('UI');
+var ajax  = require('ajax');
+var Vibe  = require('ui/vibe');
+var Accel = require('ui/accel');
+
 // Define our variables
 var debug = 1;
 var counter = 0; // parseInt(localStorage.getItem('counter')) || 0; // If the variable counter exists, pull it from the "localStorage" else initialize to zero.
@@ -5,12 +10,14 @@ var URL = "http://reddit.com/r/worldnews/top/.json";
 var items;
 
 if (debug == 1)
-  simply.vibe('short');
+  Vibe.vibrate('short');
 
 // Get datalove from reddit
 ajax({ url: URL, type: 'json' }, function(resp) {
   items = resp.data;
 });
+
+Accel.init();
 
 // Scroll the list up or down
 // This function is called on button click and accelerometer thing
