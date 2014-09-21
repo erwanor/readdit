@@ -1,4 +1,4 @@
-readit
+readdit
 ======
 
-Readit is a pebble application that enables you to read international news on the go.
+Readdit is a pebble application that enables you to read international news on the go via Reddit.
