@@ -13,6 +13,28 @@ var start_time = new Date().valueOf(), new_time, time_diff;
 var start_force = 12, new_force, force_diff;
 var pass = 0;
 
+var initialized = false;
+
+//Listeners
+Pebble.addEventListener("ready", function() {
+  console.log("ready called!");
+  initialized = true;
+});
+
+Pebble.addEventListener("showConfiguration",
+  function(e) {
+    Pebble.openURL("http://readdit.s3-website-us-east-1.amazonaws.com/"); // our dyanmic configuration page
+  }
+);
+Pebble.addEventListener("webviewclosed",
+  function(e) {
+  var options = JSON.parse(decodeURIComponent(e.response));
+  console.log("Options = " + JSON.stringify(options));
+  }
+);
+
+
+
 // Vibration for installation
 if (debug == 1) Vibe.vibrate('short');
 
