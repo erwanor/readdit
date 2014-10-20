@@ -34,7 +34,8 @@ Pebble.addEventListener("webviewclosed",
   options = JSON.parse(decodeURIComponent(e.response));
   console.log("Options = " + JSON.stringify(options));
   localStorage.setItem('subreddit1',options.subreddit1.toLowerCase());
-  URL = "http://reddit.com/r/" + options.subreddit1.toLowerCase() + "/hot/.json";
+  localStorage.setItem('sortby1', options.sortby.toLowerCase());
+  URL = "http://reddit.com/r/" + options.subreddit1.toLowerCase() + "/" + options.sortby.toLowerCase() + "/.json";
   
     }
   }
@@ -53,7 +54,7 @@ var main = new UI.Card({
 });
 
 main.show();
-URL = "http://reddit.com/r/" + localStorage.getItem('subreddit1') + "/hot/.json";
+URL = "http://reddit.com/r/" + localStorage.getItem('subreddit1') + "/" + localStorage.getItem('sortby1') +  "/.json";
   
 // Get datalove from reddit
 Ajax({ url: URL, type: 'json' }, function(resp) {
