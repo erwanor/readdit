@@ -17,13 +17,13 @@
       <div data-role="content">
 
         <div data-role="fieldcontain">
-          <label for="subreddit1">Subreddit:</label>
+          <label for="subreddit1">Subreddit 1:</label>
           <textarea cols="40" rows="8" name="subreddit1" id="subreddit1"></textarea>
         </div>
 
         <div data-role = "fieldcontain">
-          <label for="sortby">Sort By:</label>
-          <select name="sortby">
+          <label for="sortby1">Sort By:</label>
+          <select name="sortby1" id = "sortby1">
             <option value = "hot">Hot</option>
             <option value = "new">New</option>
             <option value = "top">Top</option>
@@ -31,6 +31,19 @@
           </select>
         </div>
 
+                <div data-role="fieldcontain">
+          <label for="subreddit2">Subreddit 2:</label>
+          <textarea cols="40" rows="8" name="subreddit2" id="subreddit2"></textarea>
+        </div>
+                <div data-role = "fieldcontain">
+          <label for="sortby2">Sort By:</label>
+          <select name="sortby2" id = "sortby2">
+            <option value = "hot">Hot</option>
+            <option value = "new">New</option>
+            <option value = "top">Top</option>
+            <option value = "controversial">Controversial</option>
+          </select>
+        </div>
         <!--<div data-role="fieldcontain">
           <label for="special-feature">Activate special feature:</label>
           <select name="special-feature" id="special-feature" data-role="slider">
@@ -70,7 +83,9 @@
       function saveOptions() {
         var options = {
           'subreddit1': $("#subreddit1").val(),
-          'sortby': $("#sortby").val()
+          'sortby1': $("#sortby1").val(),
+          'subreddit2': $("#subreddit2").val(),
+          'sortby2' : $("#sortby2").val()
           /**'special-feature': $("#special-feature").val(),
           'checkbox-cheetos': $("#checkbox-cheetos").is(':checked'),
           'checkbox-doritos': $("#checkbox-doritos").is(':checked'),
