@@ -5,6 +5,7 @@ var Accel = require('ui/accel');
 
 var debug = 1;
 var counter = 0; // parseInt(localStorage.getItem('counter')) || 0; // If the variable counter exists, pull it from the "localStorage" else initialize to zero.
+var subredditcounter = 1;
 var items = [];
 
 var start_time = new Date().valueOf(), new_time, time_diff;
@@ -34,9 +35,10 @@ Pebble.addEventListener("webviewclosed",
   options = JSON.parse(decodeURIComponent(e.response));
   console.log("Options = " + JSON.stringify(options));
   localStorage.setItem('subreddit1',options.subreddit1.toLowerCase());
-  localStorage.setItem('sortby1', options.sortby.toLowerCase());
+  localStorage.setItem('sortby1', options.sortby1.toLowerCase());
   URL = "http://reddit.com/r/" + options.subreddit1.toLowerCase() + "/" + options.sortby.toLowerCase() + "/.json";
-  
+  localStorage.setItem('subreddit2',options.subreddit2.toLowerCase());
+  localStorage.setItem('sortby2',options.sortby2.toLowerCase());
     }
   }
 );
@@ -47,9 +49,9 @@ if (debug == 1) Vibe.vibrate('short');
 
 // Initial UI
 var main = new UI.Card({
-  title: 'Readdit',
-  subtitle: 'Daily provider of nonsense since 1852',
-  body: ''
+  title: items.childern[0].data.score+" upvotes",
+  subtitle: '',
+  body: items.childern[0].data.title
   
 });
 
@@ -73,13 +75,6 @@ Accel.config({
 // Scroll the list up or down
 // This function is called on button click and accelerometer thing
 function scroll_list(way) {
-  main.title(items.children[counter].data.score + " upvotes");
-  main.subtitle("");
-  //main.subtitle(items.children[counter].data.domain);
-  main.body(items.children[counter].data.title);
-  
-  if (debug == 1) console.log("Counter: " + counter + "\n");
-  
   if(way === 'down' && counter < 24)
      ++counter;
   else if(way === 'down' && counter === 24 )
@@ -89,15 +84,41 @@ function scroll_list(way) {
   else if(way === 'up' && counter === 0)
     counter = 24;
   
+  main.title(items.children[counter].data.score + " upvotes");
+  main.subtitle("");
+  //main.subtitle(items.children[counter].data.domain);
+  main.body(items.children[counter].data.title);
+  
+
+  if (debug == 1) console.log("Counter: " + counter + "\n");
+
   localStorage.setItem('counter', counter);
+}
+function scroll_subreddit(way)
+{
+  if(way === 'down' && subredditcounter < 5)
+    ++subredditcounter;
+  else if(way === 'up' && subredditcounter > 0)
+    --subredditcounter;
+  URL = "http://reddit.com/r/" + localStorage.getItem('subreddit'+String(subredditcounter)) + "/" + localStorage.getItem('sortby' + String(subredditcounter)) + "/.json"
+  counter = 0;
+  main.title(items.children[counter].data.score + " upvotes");
+  main.subtitle("");
+  main.body(items.childern[counter].data.title);
+
+
 }
 
 // Monitor button clicks and call appropriate function
 main.on('click', function(e) {
   switch (e.button) {
     case 'up' :
+      scroll_list('up');
+      start = true;
+      console.log(URL);
+      break;
     case 'down' :
-      scroll_list(e.button);
+      scroll_list('down');
       start = true;
       console.log(URL);
       break;
@@ -112,6 +133,13 @@ main.on('click', function(e) {
       if (debug == 1) console.log('lolwut');
       break;
   }
+});
+main.on('longClick', 'down', function(e){
+    console.log("DOWN CLICK");
+    scroll_subreddit('down');
+    
+
+
 });
 
 main.on('accelTap', function(e) {
