@@ -2,6 +2,7 @@ var UI    = require('ui');
 var Ajax  = require('ajax');
 var Vibe  = require('ui/vibe');
 var Accel = require('ui/accel');
+var Vector2 = require('vector2');
 
 var debug = 1;
 var counter = 0; // parseInt(localStorage.getItem('counter')) || 0; // If the variable counter exists, pull it from the "localStorage" else initialize to zero.
@@ -39,6 +40,12 @@ Pebble.addEventListener("webviewclosed",
   localStorage.setItem('sortby1', options.sortby1.toLowerCase());
   localStorage.setItem('subreddit2',options.subreddit2.toLowerCase());
   localStorage.setItem('sortby2',options.sortby2.toLowerCase());
+  localStorage.setItem('subreddit3',options.subreddit3.toLowerCase());
+  localStorage.setItem('sortby3',options.sortby3.toLowerCase());
+  localStorage.setItem('subreddit4',options.subreddit4.toLowerCase());
+  localStorage.setItem('sortby4',options.sortby4.toLowerCase());
+  localStorage.setItem('subreddit5',options.subreddit5.toLowerCase());
+  localStorage.setItem('sortby5',options.sortby5.toLowerCase());
   //console.log(localStorage.getItem('subreddit1'));
   //console.log(localStorage.getItem('sortby1'));
 
@@ -60,13 +67,31 @@ Ajax({ url: URL, type: 'json' }, function(resp) {
   console.log("\n ajax sucessful \n");
 });
 
-var main = new UI.Card({
-  title: 'Readdit',
-  subtitle: 'Daily provider of nonsense since 1852',
-  body: ''
-  
+/*var main = new UI.Card()
+{
+  title: "Readdit"
+}*/
+
+var main = new UI.Window();
+var titleRect = new UI.Rect({
+  position: new Vector2(0,0),
+  size: new Vector2(144, 20), 
+  backgroundColor:'white',
+  borderColor: 'black'
 });
 
+
+
+var titleText = new UI.TimeText({
+  position: new Vector2(0,0),
+  size: new Vector2(144,5),
+  text: "Test",
+  font:'gothic-14',
+  color: 'black'
+});
+
+main.add(titleRect);
+main.add(titleText);
 main.show();
 
 
@@ -142,9 +167,9 @@ main.on('longClick', 'up', function(e)
 function scroll_subreddit(way)
 {
   //console.log("Second subreddit " + localStorage.getItem('subreddit2'));
-  if(way === 'down' && subredditcounter < 5)
+  if(way === 'down' && subredditcounter < 5 && localStorage.getItem('subreddit'+String(subredditcounter+1) !== null))
     ++subredditcounter;
-  else if(way === 'up' && subredditcounter > 0)
+  else if(way === 'up' && subredditcounter > 0 && localStorage.getItem('subreddit'+String(subredditcounter-1) !== null))
     --subredditcounter;
   //console.log(localStorage.getItem('subreddit'+String(subredditcounter)));
   URL = "http://reddit.com/r/" + localStorage.getItem('subreddit'+String(subredditcounter)) + "/" + localStorage.getItem('sortby' + String(subredditcounter)) + "/.json";
