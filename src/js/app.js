@@ -82,15 +82,43 @@ var titleRect = new UI.Rect({
 
 
 
-var titleText = new UI.TimeText({
+var upvoteText = new UI.Text({
   position: new Vector2(0,0),
-  size: new Vector2(144,5),
+  size: new Vector2(72,5),
   text: "Test",
   font:'gothic-14',
   color: 'black'
 });
 
+var subredditText = new UI.Text({
+  position: new Vector2(72,0),
+  size: new Vector2(72,5),
+  text: "subreddit",
+  font: 'gothic-14',
+  color:'black'
+});
+
+var bodyRect = new UI.Rect({
+  position: new Vector2(0,20),
+  size: new Vector2(144,163),
+  backgroundColor: 'white',
+  borderColor: 'black'
+
+});
+
+var titleText = new UI.Text({
+  position: new Vector2(2,20),
+  size: new Vector2(142,140),
+  text: "Title",
+  font: 'gothic-24',
+  color: 'black',
+  textOverflow: 'wrap'
+});
+
 main.add(titleRect);
+main.add(upvoteText);
+main.add(subredditText);
+main.add(bodyRect);
 main.add(titleText);
 main.show();
 
@@ -107,19 +135,21 @@ Accel.config({
 // Scroll the list up or down
 // This function is called on button click and accelerometer thing
 function scroll_list(way) {
-  main.title(items.children[counter].data.score + " upvotes");
-  main.subtitle("");
-  //main.subtitle(items.children[counter].data.domain);
-  main.body(items.children[counter].data.title);
+  titleText.text(items.children[counter].data.title);
+  //main.subtitle("");
+  upvoteText.text(items.children[counter].data.score + " upvotes");
+  subredditText.text("r/" + localStorage.getItem('subreddit' + String(subredditcounter)));
+  //headerText.text(items.children[counter].data.domain);
+  //main.body(items.children[counter].data.title);
   
   if (debug == 1) console.log("Counter: " + counter + "\n");
   
   if(way === 'down' && counter < 24)
-     ++counter;
+     counter=counter+1;
   else if(way === 'down' && counter === 24 )
     counter = 0;
   else if(way === 'up' && counter > 0)
-    --counter;
+    counter=counter-1;
   else if(way === 'up' && counter === 0)
     counter = 24;
   
@@ -182,9 +212,9 @@ function scroll_subreddit(way)
     console.log("\n ajax finished \n");
   });
   counter = 0;
-  main.title(items.children[counter].data.score + " upvotes");
-  main.subtitle("");
-  main.body(items.childern[counter].data.title);
+  upvoteText.text(items.children[counter].data.score + " upvotes");
+  subredditText.text("r/" + localStorage.getItem('subreddit'+String(subredditcounter)));
+  titleText.text(items.childern[counter].data.title);
 
 
 }
