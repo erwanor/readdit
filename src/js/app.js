@@ -46,8 +46,7 @@ Pebble.addEventListener("webviewclosed",
   localStorage.setItem('sortby4',options.sortby4.toLowerCase());
   localStorage.setItem('subreddit5',options.subreddit5.toLowerCase());
   localStorage.setItem('sortby5',options.sortby5.toLowerCase());
-  //console.log(localStorage.getItem('subreddit1'));
-  //console.log(localStorage.getItem('sortby1'));
+
 
       }
   }
@@ -135,14 +134,9 @@ Accel.config({
 // Scroll the list up or down
 // This function is called on button click and accelerometer thing
 function scroll_list(way) {
-  titleText.text(items.children[counter].data.title);
-  //main.subtitle("");
-  upvoteText.text(items.children[counter].data.score + " upvotes");
-  subredditText.text("r/" + localStorage.getItem('subreddit' + String(subredditcounter)));
-  //headerText.text(items.children[counter].data.domain);
-  //main.body(items.children[counter].data.title);
+
   
-  if (debug == 1) console.log("Counter: " + counter + "\n");
+  
   
   if(way === 'down' && counter < 24)
      counter=counter+1;
@@ -152,22 +146,27 @@ function scroll_list(way) {
     counter=counter-1;
   else if(way === 'up' && counter === 0)
     counter = 24;
+
+  if (debug == 1) console.log("Counter: " + counter + "\n");
   
-  localStorage.setItem('counter', counter);
+  titleText.text(items.children[counter].data.title);
+  //main.subtitle("");
+  upvoteText.text(items.children[counter].data.score + " upvotes");
+  subredditText.text("r/" + localStorage.getItem('subreddit' + String(subredditcounter)));
+  //headerText.text(items.children[counter].data.domain);
+  //main.body(items.children[counter].data.title);
 }
 
 // Monitor button clicks and call appropriate function
 main.on('click', function(e) {
   switch (e.button) {
     case 'up' :
+      console.log("\nshort up click\n");
       scroll_list('up');
-      start = true;
-      console.log(URL);
       break;
     case 'down' :
+      console.log("\nshort down click \n");
       scroll_list('down');
-      start = true;
-      console.log(URL);
       break;
       
     // Link (page and comments) opening
