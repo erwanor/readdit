@@ -9,7 +9,7 @@ var items = [];
 var subredditcounter = 1;
 var start_time = new Date().valueOf(), new_time, time_diff;
 var start_force = 12, new_force, force_diff;
-
+var options;
 var pass = 0;
 var start = false;
 var URL;
@@ -26,31 +26,30 @@ Pebble.addEventListener("showConfiguration",
     Pebble.openURL("http://readdit.s3-website-us-east-1.amazonaws.com/"); // our dyanmic configuration page
   }
 );
-var options;
 Pebble.addEventListener("webviewclosed",
-  function(e) {
+function(e) {
   if(e.response!= "CANCELED")
     {
-  options = JSON.parse(decodeURIComponent(e.response));
-  console.log("Options = " + JSON.stringify(options));
-  console.log(options.sortby1.toLowerCase());
-  console.log("\n http://reddit.com/r/" + localStorage.getItem('subreddit1') + "/" + localStorage.getItem('sortby1') +  "/.json");
-  localStorage.setItem('subreddit1',options.subreddit1.toLowerCase());
-  localStorage.setItem('sortby1', options.sortby1.toLowerCase());
-  localStorage.setItem('subreddit2',options.subreddit2.toLowerCase());
-  localStorage.setItem('sortby2',options.sortby2.toLowerCase());
-  //console.log(localStorage.getItem('subreddit1'));
-  //console.log(localStorage.getItem('sortby1'));
+      options = JSON.parse(decodeURIComponent(e.response));
+      console.log("Options = " + JSON.stringify(options));
+      console.log(options.sortby1.toLowerCase());
+      console.log("\n http://reddit.com/r/" + localStorage.getItem('subreddit1') + "/" + localStorage.getItem('sortby1') +  "/.json");
+      localStorage.setItem('subreddit1',options.subreddit1.toLowerCase());
+      localStorage.setItem('sortby1', options.sortby1.toLowerCase());
+      localStorage.setItem('subreddit2',options.subreddit2.toLowerCase());
+      localStorage.setItem('sortby2',options.sortby2.toLowerCase());
+      //console.log(localStorage.getItem('subreddit1'));
+      //console.log(localStorage.getItem('sortby1'));
 
-      }
-  }
-);
+   }
+});
 
 
 // Vibration for installation
-if (debug == 1) Vibe.vibrate('short');
+  if (debug == 1)
+    Vibe.vibrate('short');
 
-URL = "http://reddit.com/r/" + localStorage.getItem('subreddit1') + "/" + localStorage.getItem('sortby1') +  "/.json";
+  URL = "http://reddit.com/r/" + localStorage.getItem('subreddit1') + "/" + localStorage.getItem('sortby1') +  "/.json";
 
 
 // Get datalove from reddit
@@ -64,7 +63,6 @@ var main = new UI.Card({
   title: 'Readdit',
   subtitle: 'Daily provider of nonsense since 1852',
   body: ''
-  
 });
 
 main.show();
