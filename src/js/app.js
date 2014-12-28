@@ -173,7 +173,7 @@ main.on('click', function(e) {
       // Link (page and comments) opening
     case 'select':
       if (counter > 0)
-        Pebble.openURL("http://reddit.com/" + items.children[counter - 1].data.permalink + ".compact");
+        Pebble.openURL("http://reddit.com/" + items.children[counter ].data.permalink + ".compact");
       break;
 
     default:
