@@ -3,7 +3,7 @@
 
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/aaronwinter/readdit?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-**Readdit is your daily provider of non-sense and a cool reddit client for Pebble watch**
+**Readdit is the coolest reddit client for Pebble**
 
 ### Installation:
 
