@@ -1,2 +1,11 @@
 build/
-.lock-waf_darwin_build
+src/simply/
+src/util
+src/js/lib
+src/js/settings
+src/js/simply
+src/js/smartpackage
+src/js/ui
+src/js/vendor
+src/js/loader.js
+src/js/main.js
