@@ -3,19 +3,19 @@ var Ajax = require('ajax');
 var Vibe = require('ui/vibe');
 var Accel = require('ui/accel');
 var Vector2 = require('vector2');
+var Settings = require('settings');
 
 var debug = 1;
 var counter = 0; // parseInt(localStorage.getItem('counter')) || 0; // If the variable counter exists, pull it from the "localStorage" else initialize to zero.
 var items = [];
-var subredditcounter = 1;
+var subredditcounter = 0;
 var start_time = new Date().valueOf(),
   new_time, time_diff;
 var start_force = 12,
   new_force, force_diff;
 
 var pass = 0;
-var start = false;
-var URL;
+var URL = "http://reddit.com/r/all/hot/.json";
 var initialized = false;
 
 //Listeners
@@ -24,41 +24,45 @@ Pebble.addEventListener("ready", function() {
   initialized = true;
 });
 
-Pebble.addEventListener("showConfiguration",
-  function(e) {
-    Pebble.openURL("http://readdit.s3-website-us-east-1.amazonaws.com/"); // our dyanmic configuration page
-  }
+Settings.config(
+  {
+    url: "http://readdit.s3-website-us-east-1.amazonaws.com/"// our dyanmic configuration page
+  }, function(e) {
+    console.log('open config'); },
+    function(e) {
+      console.log('closing config');
+      parseOptions(e);
+    }
+  
 );
-var options;
-Pebble.addEventListener("webviewclosed",
-  function(e) {
+
+function parseOptions(e)
+{
     if (e.response != "CANCELED") {
-      options = JSON.parse(decodeURIComponent(e.response));
+      var options = JSON.parse(decodeURIComponent(e.response));
       console.log("Options = " + JSON.stringify(options));
       console.log(options.sortby1.toLowerCase());
-      console.log("\n http://reddit.com/r/" + localStorage.getItem('subreddit1') + "/" + localStorage.getItem('sortby1') + "/.json");
-      localStorage.setItem('subreddit1', options.subreddit1.toLowerCase());
-      localStorage.setItem('sortby1', options.sortby1.toLowerCase());
-      localStorage.setItem('subreddit2', options.subreddit2.toLowerCase());
-      localStorage.setItem('sortby2', options.sortby2.toLowerCase());
-      localStorage.setItem('subreddit3', options.subreddit3.toLowerCase());
-      localStorage.setItem('sortby3', options.sortby3.toLowerCase());
-      localStorage.setItem('subreddit4', options.subreddit4.toLowerCase());
-      localStorage.setItem('sortby4', options.sortby4.toLowerCase());
-      localStorage.setItem('subreddit5', options.subreddit5.toLowerCase());
-      localStorage.setItem('sortby5', options.sortby5.toLowerCase());
-
-
+      console.log("\n http://reddit.com/r/" + Settings.option('subreddit1') + "/" + Settings.option('sortby1') + "/.json");
+      Settings.option('subreddit1', options.subreddit1.toLowerCase());
+      Settings.option('sortby1', options.sortby1.toLowerCase());
+      Settings.option('subreddit2', options.subreddit2.toLowerCase());
+      Settings.option('sortby2', options.sortby2.toLowerCase());
+      Settings.option('subreddit3', options.subreddit3.toLowerCase());
+      Settings.option('sortby3', options.sortby3.toLowerCase());
+      Settings.option('subreddit4', options.subreddit4.toLowerCase());
+      Settings.option('sortby4', options.sortby4.toLowerCase());
+      Settings.option('subreddit5', options.subreddit5.toLowerCase());
+      Settings.option('sortby5', options.sortby5.toLowerCase());
     }
-  }
-);
 
+
+}
 
 // Vibration for installation
 if (debug == 1) Vibe.vibrate('short');
-
-URL = "http://reddit.com/r/" + localStorage.getItem('subreddit1') + "/" + localStorage.getItem('sortby1') + "/.json";
-
+Settings.option('subreddit0', 'all');
+Settings.option('sortby0', 'hot');
+URL = "http://reddit.com/r/" + localStorage.getItem('subreddit0') + "/" + localStorage.getItem('sortby0') + "/.json";
 
 // Get datalove from reddit
 
@@ -115,7 +119,7 @@ var titleText = new UI.Text({
   text: "Title",
   font: 'gothic-24',
   color: 'black',
-  textOverflow: 'wrap'
+  textOverflow: 'fill'
 });
 
 main.add(titleRect);
@@ -149,11 +153,11 @@ function scroll_list(way) {
     counter = 24;
 
   if (debug == 1) console.log("Counter: " + counter + "\n");
-
+  console.log(URL);
   titleText.text(items.children[counter].data.title);
   //main.subtitle("");
   upvoteText.text(items.children[counter].data.score + " upvotes");
-  subredditText.text(localStorage.getItem('subreddit' + String(subredditcounter)));
+  subredditText.text(Settings.option('subreddit' + String(subredditcounter)));
   //headerText.text(items.children[counter].data.domain);
   //main.body(items.children[counter].data.title);
 }
@@ -172,14 +176,18 @@ main.on('click', function(e) {
 
       // Link (page and comments) opening
     case 'select':
-      if (counter > 0)
-        Pebble.openURL("http://reddit.com/" + items.children[counter ].data.permalink + ".compact");
+      
       break;
 
     default:
       if (debug == 1) console.log('lolwut');
       break;
   }
+});
+
+main.on('longClick', 'select', function(e) {
+  if (counter > 0)
+    Pebble.openURL("http://reddit.com/" + items.children[counter - 1].data.permalink + ".compact");
 });
 
 main.on('longClick', 'down', function(e) {
@@ -196,26 +204,19 @@ main.on('longClick', 'up', function(e) {
 function scroll_subreddit(way) {
   var scroll = false;
   //console.log("\n" + localStorage.getItem('subreddit'+String(subredditcounter+1))!==null + "\n");
-  if (way === 'down' && subredditcounter < 5 && localStorage.getItem('subreddit' + String(subredditcounter + 1)) !== null) {
+  if (way === 'down' && subredditcounter < 5 && Settings.option('subreddit' + String(subredditcounter + 1)) !== null) {
     subredditcounter = subredditcounter + 1;
     scroll = true;
 
-  }
-  else if(way === 'down'&& subredditcounter === 5)
-  {
-    subredditcounter = 5;
+  } else if (way === 'down' && subredditcounter === 5) {
+    subredditcounter = 0;
     scroll = true;
-  } 
-  else if (way === 'up' && subredditcounter > 1 && localStorage.getItem('subreddit' + String(subredditcounter - 1)) !== null) {
+  } else if (way === 'up' && subredditcounter > 1 && Settings.option('subreddit' + String(subredditcounter - 1)) !== null) {
     subredditcounter = subredditcounter - 1;
     scroll = true;
-  }
-  else if (way === 'up' && subredditcounter === 1)
-  {
-    for(var a = 5; a < 0; a--)
-    {
-      if(localStorage.getItem('subreddit'+String(a)) !==null)
-      {
+  } else if (way === 'up' && subredditcounter === 0) {
+    for (var a = 5; a < 0; a--) {
+      if (Settings.option('subreddit' + String(a)) !== null) {
         subredditcounter = a;
         break;
       }
@@ -223,11 +224,11 @@ function scroll_subreddit(way) {
     scroll = true;
   }
   console.log("\n" + subredditcounter + "\n");
-  console.log("\n" + localStorage.getItem('subreddit' + String(subredditcounter)) + "\n");
+  console.log("\n" + Settings.option('subreddit' + String(subredditcounter)) + "\n");
 
 
   if (scroll === true) {
-    URL = "http://reddit.com/r/" + localStorage.getItem('subreddit' + String(subredditcounter)) + "/" + localStorage.getItem('sortby' + String(subredditcounter)) + "/.json";
+    URL = "http://reddit.com/r/" + Settings.option('subreddit' + String(subredditcounter)) + "/" + Settings.option('sortby' + String(subredditcounter)) + "/.json";
     Ajax({
         url: URL,
         type: 'json'
@@ -239,7 +240,7 @@ function scroll_subreddit(way) {
       });
     counter = 0;
     upvoteText.text(items.children[counter].data.score + " upvotes");
-    subredditText.text(localStorage.getItem('subreddit' + String(subredditcounter)));
+    subredditText.text(Settings.option('subreddit' + String(subredditcounter)));
     titleText.text(items.childern[counter].data.title);
   }
 }
